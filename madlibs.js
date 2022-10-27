@@ -32,6 +32,7 @@ let testRegex = /Kevin/;
 console.log(testRegex.test(testStr));
 function parseStory(rawStory) {
   // Your code here.
+  const arrayOfWords = [];
   return {}; // This line is currently wrong :)
 }
 
