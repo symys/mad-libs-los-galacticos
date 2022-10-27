@@ -28,6 +28,7 @@
  */
 function parseStory(rawStory) {
   // Your code here.
+  const arrayOfWords = [];
   return {}; // This line is currently wrong :)
 }
 
