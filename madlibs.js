@@ -55,7 +55,7 @@ function parseStory(rawStory) {
     }
   }
   console.log(arrayOfWords)
-
+  console.log(arrayOfWords)
 
 
   return {}; // This line is currently wrong :)
