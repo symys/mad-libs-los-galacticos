@@ -27,12 +27,37 @@
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
 
-let testStr = "Hello, my name is Kevin.";
-let testRegex = /Kevin/;
-console.log(testRegex.test(testStr));
 function parseStory(rawStory) {
   // Your code here.
   const arrayOfWords = [];
+  const splittedStory=rawStory.split("")
+  const madLibsPreviewBox= document.querySelector(".madLibsPreview")[0];
+  for (const word of splittedStory) {
+    if ((/\[n\]/).test(word) === true) {
+      arrayOfWords.push({
+        word: word.replace("[n]", ""),
+        pos: "n"
+      })
+    } else if ((/\[a\]/).test(word) === true) {
+      arrayOfWords.push({
+        word: word.replace("[a]", ""),
+        pos: "a"
+      })
+    } else if ((/\[v\]/).test(word) === true) {
+      arrayOfWords.push({
+        word: word.replace("[v]", ""),
+        pos: "v"
+      })
+    } else {
+      arrayOfWords.push({
+        word: word
+      })
+    }
+  }
+  console.log(arrayOfWords)
+
+
+
   return {}; // This line is currently wrong :)
 }
 
