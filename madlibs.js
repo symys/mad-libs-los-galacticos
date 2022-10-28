@@ -27,12 +27,41 @@
  * Please go through this lesson: https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/regular-expressions/
  */
 
-let testStr = "Hello, my name is Kevin.";
-let testRegex = /Kevin/;
-console.log(testRegex.test(testStr));
 function parseStory(rawStory) {
   // Your code here.
-  return {}; // This line is currently wrong :)
+
+  let dataArr = [];
+
+  let noun = /\[n\]/;
+  let adjective = /\[adj\]/;
+  let verb = /\[v\]/;
+  let allSigns = /[.,;\s]/g;
+  let allText = rawStory.split(" ");
+
+  allText.forEach((singleText) => {
+    let updatedText = singleText.replace(allSigns, "");
+    if (noun.test(updatedText)) {
+      let singleObject = {};
+      singleObject.word = updatedText.slice(0, -3);
+      singleObject.pos = "noun";
+      dataArr.push(singleObject);
+    } else if (adjective.test(updatedText)) {
+      let singleObject = {};
+      singleObject.word = updatedText.slice(0, -5);
+      singleObject.pos = "adjective";
+      dataArr.push(singleObject);
+    } else if (verb.test(updatedText)) {
+      let singleObject = {};
+      singleObject.word = updatedText.slice(0, -3);
+      singleObject.pos = "verb";
+      dataArr.push(singleObject);
+    } else {
+      let singleObject = {};
+      singleObject.word = updatedText;
+      dataArr.push(singleObject);
+    }
+  });
+  return dataArr; // This line is currently wrong :)
 }
 
 /**
