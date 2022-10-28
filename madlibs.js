@@ -30,6 +30,7 @@
 function parseStory(rawStory) {
   // Your code here.
 
+
   let dataArr = [];
 
   let noun = /\[n\]/;
@@ -62,6 +63,7 @@ function parseStory(rawStory) {
     }
   });
   return dataArr; // This line is currently wrong :)
+
 }
 
 /**
