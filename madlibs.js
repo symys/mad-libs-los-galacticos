@@ -29,36 +29,41 @@
 
 function parseStory(rawStory) {
   // Your code here.
-  const arrayOfWords = [];
-  const splittedStory=rawStory.split("")
-  const madLibsPreviewBox= document.querySelector(".madLibsPreview")[0];
-  for (const word of splittedStory) {
-    if ((/\[n\]/).test(word) === true) {
-      arrayOfWords.push({
-        word: word.replace("[n]", ""),
-        pos: "n"
-      })
-    } else if ((/\[a\]/).test(word) === true) {
-      arrayOfWords.push({
-        word: word.replace("[a]", ""),
-        pos: "a"
-      })
-    } else if ((/\[v\]/).test(word) === true) {
-      arrayOfWords.push({
-        word: word.replace("[v]", ""),
-        pos: "v"
-      })
+
+
+  let dataArr = [];
+
+  let noun = /\[n\]/;
+  let adjective = /\[adj\]/;
+  let verb = /\[v\]/;
+  let allSigns = /[.,;\s]/g;
+  let allText = rawStory.split(" ");
+
+  allText.forEach((singleText) => {
+    let updatedText = singleText.replace(allSigns, "");
+    if (noun.test(updatedText)) {
+      let singleObject = {};
+      singleObject.word = updatedText.slice(0, -3);
+      singleObject.pos = "noun";
+      dataArr.push(singleObject);
+    } else if (adjective.test(updatedText)) {
+      let singleObject = {};
+      singleObject.word = updatedText.slice(0, -5);
+      singleObject.pos = "adjective";
+      dataArr.push(singleObject);
+    } else if (verb.test(updatedText)) {
+      let singleObject = {};
+      singleObject.word = updatedText.slice(0, -3);
+      singleObject.pos = "verb";
+      dataArr.push(singleObject);
     } else {
-      arrayOfWords.push({
-        word: word
-      })
+      let singleObject = {};
+      singleObject.word = updatedText;
+      dataArr.push(singleObject);
     }
-  }
-  console.log(arrayOfWords)
-  console.log(arrayOfWords)
+  });
+  return dataArr; // This line is currently wrong :)
 
-
-  return {}; // This line is currently wrong :)
 }
 
 /**
