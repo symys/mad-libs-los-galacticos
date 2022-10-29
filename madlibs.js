@@ -80,21 +80,31 @@ getRawStory()
   })
 
 function convertToParagraph(rawStory) {
-  //const inputArr = [];
+  const headEdit = document.createElement('h2');
+  const headPreview = document.createElement('h2');
   const editingClass = document.querySelector(".madLibsEdit");
   const editingParagraph = document.createElement('p');
+  headEdit.innerText = "Halloween"
+  editingClass.appendChild(headEdit)
   editingClass.appendChild(editingParagraph);
 
   const previewClass = document.querySelector(".madLibsPreview");
   const previewParagraph = document.createElement('p');
+  headPreview.innerText = "Halloween"
+  previewClass.appendChild(headPreview);
   previewClass.appendChild(previewParagraph);
 
+ 
 
-  const editingStory = rawStory.forEach(element => {
+
+
+  const editingStory = rawStory.forEach((element,index) => {
     if (element.pos) {
       const input = document.createElement('input');
+      input.setAttribute("id", `${index}Edit`)
       input.className = "editInput"
       const inputPreview = document.createElement('input');
+      inputPreview.setAttribute("id", `${index}Preview`)
       inputPreview.className = "inputPreview"
       input.type = "text";
       input.placeholder = `write a ${element.pos}`;
