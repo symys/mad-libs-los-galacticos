@@ -30,7 +30,6 @@
 function parseStory(rawStory) {
   // Your code here.
 
-
   let dataArr = [];
 
   let noun = /\[n\]/;
@@ -63,7 +62,6 @@ function parseStory(rawStory) {
     }
   });
   return dataArr; // This line is currently wrong :)
-
 }
 
 /**
@@ -75,5 +73,28 @@ function parseStory(rawStory) {
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
+    const paragraphEl = document.createElement("p");
+
+    const madLibsEditDiv = document.querySelector(".madLibsEdit");
+    const madLibsPreviewDiv = document.querySelector(".madLibsPreview");
+    const headingforEditDiv = document.createElement("h2");
+    headingforEditDiv.innerText = "Welcome to Halloween Mad Libs";
+    madLibsEditDiv.append(headingforEditDiv);
+
+    processedStory.map((singleWord, index) => {
+      const spanEl = document.createElement("span");
+
+      const { word, pos } = singleWord;
+
+      if (word) {
+        spanEl.innerText += ` ${word}  `;
+        paragraphEl.append(spanEl);
+        madLibsEditDiv.append(paragraphEl);
+      }
+      if (pos) {
+        spanEl.innerHTML = `<input type="text" placeholder=${pos} class="input-field" id='input-${index}'>`;
+      }
+    });
+
     console.log(processedStory);
   });
