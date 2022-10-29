@@ -73,28 +73,55 @@ function parseStory(rawStory) {
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
-    const paragraphEl = document.createElement("p");
+    /*Defining variables for HTML */
+    const paragraphElEdit = document.createElement("p");
+    const paragraphElPrev = document.createElement("p");
 
     const madLibsEditDiv = document.querySelector(".madLibsEdit");
     const madLibsPreviewDiv = document.querySelector(".madLibsPreview");
+
     const headingforEditDiv = document.createElement("h2");
+    const headingforPrevDiv = document.createElement("h2");
+
     headingforEditDiv.innerText = "Welcome to Halloween Mad Libs";
+    headingforPrevDiv.innerHTML = "Welcome to Halloween Mad Libs";
+
     madLibsEditDiv.append(headingforEditDiv);
+    madLibsPreviewDiv.append(headingforPrevDiv);
 
     processedStory.map((singleWord, index) => {
-      const spanEl = document.createElement("span");
-
+      const spanElEdit = document.createElement("span");
+      const spanElPrev = document.createElement("span");
       const { word, pos } = singleWord;
-
+      /*Adding words into both prev and Edit*/
       if (word) {
-        spanEl.innerText += ` ${word}  `;
-        paragraphEl.append(spanEl);
-        madLibsEditDiv.append(paragraphEl);
+        spanElEdit.innerText += ` ${word}  `;
+        spanElPrev.innerText += ` ${word}  `;
+        paragraphElEdit.append(spanElEdit);
+        paragraphElPrev.append(spanElPrev);
+
+        madLibsEditDiv.append(paragraphElEdit);
+        madLibsPreviewDiv.append(paragraphElPrev);
       }
+      /*Replacing  nouns,adj and verbs with input field*/
       if (pos) {
-        spanEl.innerHTML = `<input type="text" placeholder=${pos} class="input-field" id='input-${index}'>`;
+        spanElEdit.innerHTML = `<input type="text" placeholder=${pos} class="input-edit" id='input-${index}'>`;
+
+        spanElPrev.innerHTML = `<input type="text" placeholder="fill mee" class="input-preview"  id='input-${index}'>`;
       }
     });
 
-    console.log(processedStory);
+    /* Defining all input field for Edit &Prev*/
+    const allSpanElEdit = document.querySelectorAll(".input-edit");
+    const allSpanPrev = document.querySelectorAll(".input-preview");
+
+    allSpanElEdit.forEach((oneSpanEl, indexEdit) => {
+      oneSpanEl.addEventListener("input", (e) => {
+        allSpanPrev.forEach((allPrev, indexPrev) => {
+          if (indexEdit === indexPrev) {
+            allPrev.setAttribute("value", e.target.value);
+          }
+        });
+      });
+    });
   });
