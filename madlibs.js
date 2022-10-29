@@ -115,6 +115,7 @@ getRawStory()
     const allSpanElEdit = document.querySelectorAll(".input-edit");
     const allSpanPrev = document.querySelectorAll(".input-preview");
 
+    /*Now listen changes made in MadLibsEdit and set this into MadLibsPrev via setAttribute*/
     allSpanElEdit.forEach((oneSpanEl, indexEdit) => {
       oneSpanEl.addEventListener("input", (e) => {
         allSpanPrev.forEach((allPrev, indexPrev) => {
