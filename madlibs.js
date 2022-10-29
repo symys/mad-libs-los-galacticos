@@ -92,10 +92,10 @@ function convertToParagraph(rawStory) {
   previewClass.appendChild(headPreview);
   previewClass.appendChild(previewParagraph);
 
-  const editingStory = rawStory.forEach((element, index) => {
+  rawStory.forEach((element, index) => {
     if (element.pos) {
       const input = document.createElement("input");
-      input.setAttribute("id", `${index}Edit`);
+      // input.setAttribute("id", `${index}Edit`);
       input.className = "editInput";
       const inputPreview = document.createElement("input");
       inputPreview.setAttribute("id", `${index}Preview`);
@@ -116,21 +116,28 @@ function convertToParagraph(rawStory) {
   const allPreviewInput = document.querySelectorAll(".inputPreview");
 
   allEditedIput.forEach((inputField, indexEdit) => {
-    //console.log(indexEdit)
+    inputField.setAttribute("id", `${indexEdit}Edit`);
     inputField.addEventListener("input", (e) => {
       allPreviewInput.forEach((previewInputField, indexPreview) => {
-        //console.log(indexPreview)
-        //console.log(previewInputField.value)
-        //console.log(e)
         if (indexEdit === indexPreview) {
           previewInputField.value = e.target.value;
         }
       });
     });
-  });
+    inputField.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const getNextEditedInput = document.getElementById(
+          `${indexEdit + 1}Edit`
+        );
 
-  //console.log(inputArr)
-  //return (editingStory);
+        if (allEditedIput.length > indexEdit + 1) {
+          getNextEditedInput.focus();
+        } else {
+          alert("There are no other Inputs to be filled sorry");
+        }
+      }
+    });
+  });
 }
 
 function getValue(element) {
