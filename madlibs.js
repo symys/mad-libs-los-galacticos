@@ -30,7 +30,6 @@
 function parseStory(rawStory) {
   // Your code here.
 
-
   let dataArr = [];
 
   let noun = /\[n\]/;
@@ -63,7 +62,6 @@ function parseStory(rawStory) {
     }
   });
   return dataArr; // This line is currently wrong :)
-
 }
 
 /**
@@ -77,35 +75,31 @@ getRawStory()
   .then((processedStory) => {
     convertToParagraph(processedStory);
     //console.log(processedStory)
-  })
+  });
 
 function convertToParagraph(rawStory) {
-  const headEdit = document.createElement('h2');
-  const headPreview = document.createElement('h2');
+  const headEdit = document.createElement("h2");
+  const headPreview = document.createElement("h2");
   const editingClass = document.querySelector(".madLibsEdit");
-  const editingParagraph = document.createElement('p');
-  headEdit.innerText = "Halloween"
-  editingClass.appendChild(headEdit)
+  const editingParagraph = document.createElement("p");
+  headEdit.innerText = "Halloween";
+  editingClass.appendChild(headEdit);
   editingClass.appendChild(editingParagraph);
 
   const previewClass = document.querySelector(".madLibsPreview");
-  const previewParagraph = document.createElement('p');
-  headPreview.innerText = "Halloween"
+  const previewParagraph = document.createElement("p");
+  headPreview.innerText = "Halloween";
   previewClass.appendChild(headPreview);
   previewClass.appendChild(previewParagraph);
 
- 
-
-
-
-  const editingStory = rawStory.forEach((element,index) => {
+  rawStory.forEach((element, index) => {
     if (element.pos) {
-      const input = document.createElement('input');
-      input.setAttribute("id", `${index}Edit`)
-      input.className = "editInput"
-      const inputPreview = document.createElement('input');
-      inputPreview.setAttribute("id", `${index}Preview`)
-      inputPreview.className = "inputPreview"
+      const input = document.createElement("input");
+      // input.setAttribute("id", `${index}Edit`);
+      input.className = "editInput";
+      const inputPreview = document.createElement("input");
+      inputPreview.setAttribute("id", `${index}Preview`);
+      inputPreview.className = "inputPreview";
       input.type = "text";
       input.placeholder = `write a ${element.pos}`;
 
@@ -113,36 +107,42 @@ function convertToParagraph(rawStory) {
       //document.addEventListener("change", previewParagraph.append(getValue(input)))
       previewParagraph.appendChild(inputPreview);
     } else {
-      editingParagraph.append(`${element.word} `)
-      previewParagraph.append(` ${element.word} `)
+      editingParagraph.append(`${element.word} `);
+      previewParagraph.append(` ${element.word} `);
     }
   });
 
-  const allEditedIput = document.querySelectorAll(".editInput")
-  const allPreviewInput = document.querySelectorAll(".inputPreview")
+  const allEditedIput = document.querySelectorAll(".editInput");
+  const allPreviewInput = document.querySelectorAll(".inputPreview");
 
   allEditedIput.forEach((inputField, indexEdit) => {
-    //console.log(indexEdit)
-    inputField.addEventListener("input", (e) =>{
+    inputField.setAttribute("id", `${indexEdit}Edit`);
+    inputField.addEventListener("input", (e) => {
       allPreviewInput.forEach((previewInputField, indexPreview) => {
-        //console.log(indexPreview)
-        //console.log(previewInputField.value)
-        //console.log(e)
-        if(indexEdit === indexPreview){
+        if (indexEdit === indexPreview) {
           previewInputField.value = e.target.value;
         }
-        
-      })
-    } )
-  })
+      });
+    });
+    inputField.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        const getNextEditedInput = document.getElementById(
+          `${indexEdit + 1}Edit`
+        );
 
-  //console.log(inputArr)
-  //return (editingStory);
+        if (allEditedIput.length > indexEdit + 1) {
+          getNextEditedInput.focus();
+        } else {
+          alert("There are no other Inputs to be filled sorry");
+        }
+      }
+    });
+  });
 }
 
 function getValue(element) {
-   element.addEventListener("input", (e) => {
+  element.addEventListener("input", (e) => {
     const inputValue = e.target.value;
-    return inputValue
-  })
+    return inputValue;
+  });
 }
