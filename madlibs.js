@@ -73,56 +73,69 @@ function parseStory(rawStory) {
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
-    /*Defining variables for HTML */
-    const paragraphElEdit = document.createElement("p");
-    const paragraphElPrev = document.createElement("p");
+    convertToParagraph(processedStory);
+    //console.log(processedStory)
+  });
 
-    const madLibsEditDiv = document.querySelector(".madLibsEdit");
-    const madLibsPreviewDiv = document.querySelector(".madLibsPreview");
+function convertToParagraph(rawStory) {
+  const headEdit = document.createElement("h2");
+  const headPreview = document.createElement("h2");
+  const editingClass = document.querySelector(".madLibsEdit");
+  const editingParagraph = document.createElement("p");
+  headEdit.innerText = "Halloween";
+  editingClass.appendChild(headEdit);
+  editingClass.appendChild(editingParagraph);
 
-    const headingforEditDiv = document.createElement("h2");
-    const headingforPrevDiv = document.createElement("h2");
+  const previewClass = document.querySelector(".madLibsPreview");
+  const previewParagraph = document.createElement("p");
+  headPreview.innerText = "Halloween";
+  previewClass.appendChild(headPreview);
+  previewClass.appendChild(previewParagraph);
 
-    headingforEditDiv.innerText = "Welcome to Halloween Mad Libs";
-    headingforPrevDiv.innerHTML = "Welcome to Halloween Mad Libs";
+  const editingStory = rawStory.forEach((element, index) => {
+    if (element.pos) {
+      const input = document.createElement("input");
+      input.setAttribute("id", `${index}Edit`);
+      input.className = "editInput";
+      const inputPreview = document.createElement("input");
+      inputPreview.setAttribute("id", `${index}Preview`);
+      inputPreview.className = "inputPreview";
+      input.type = "text";
+      input.placeholder = `write a ${element.pos}`;
 
-    madLibsEditDiv.append(headingforEditDiv);
-    madLibsPreviewDiv.append(headingforPrevDiv);
+      editingParagraph.appendChild(input);
+      //document.addEventListener("change", previewParagraph.append(getValue(input)))
+      previewParagraph.appendChild(inputPreview);
+    } else {
+      editingParagraph.append(`${element.word} `);
+      previewParagraph.append(` ${element.word} `);
+    }
+  });
 
-    processedStory.map((singleWord, index) => {
-      const spanElEdit = document.createElement("span");
-      const spanElPrev = document.createElement("span");
-      const { word, pos } = singleWord;
-      /*Adding words into both prev and Edit*/
-      if (word) {
-        spanElEdit.innerText += ` ${word}  `;
-        spanElPrev.innerText += ` ${word}  `;
-        paragraphElEdit.append(spanElEdit);
-        paragraphElPrev.append(spanElPrev);
+  const allEditedIput = document.querySelectorAll(".editInput");
+  const allPreviewInput = document.querySelectorAll(".inputPreview");
 
-        madLibsEditDiv.append(paragraphElEdit);
-        madLibsPreviewDiv.append(paragraphElPrev);
-      }
-      /*Replacing  nouns,adj and verbs with input field*/
-      if (pos) {
-        spanElEdit.innerHTML = `<input type="text" placeholder=${pos} class="input-edit" id='input-${index}'>`;
-
-        spanElPrev.innerHTML = `<input type="text" placeholder="fill mee" class="input-preview"  id='input-${index}'>`;
-      }
-    });
-
-    /* Defining all input field for Edit &Prev*/
-    const allSpanElEdit = document.querySelectorAll(".input-edit");
-    const allSpanPrev = document.querySelectorAll(".input-preview");
-
-    /*Now listen changes made in MadLibsEdit and set this into MadLibsPrev via setAttribute*/
-    allSpanElEdit.forEach((oneSpanEl, indexEdit) => {
-      oneSpanEl.addEventListener("input", (e) => {
-        allSpanPrev.forEach((allPrev, indexPrev) => {
-          if (indexEdit === indexPrev) {
-            allPrev.setAttribute("value", e.target.value);
-          }
-        });
+  allEditedIput.forEach((inputField, indexEdit) => {
+    //console.log(indexEdit)
+    inputField.addEventListener("input", (e) => {
+      allPreviewInput.forEach((previewInputField, indexPreview) => {
+        //console.log(indexPreview)
+        //console.log(previewInputField.value)
+        //console.log(e)
+        if (indexEdit === indexPreview) {
+          previewInputField.value = e.target.value;
+        }
       });
     });
   });
+
+  //console.log(inputArr)
+  //return (editingStory);
+}
+
+function getValue(element) {
+  element.addEventListener("input", (e) => {
+    const inputValue = e.target.value;
+    return inputValue;
+  });
+}
