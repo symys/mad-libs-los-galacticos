@@ -110,7 +110,6 @@ function convertToParagraph(rawStory) {
       input.placeholder = `write a ${element.pos}`;
 
       editingParagraph.appendChild(input);
-      //document.addEventListener("change", previewParagraph.append(getValue(input)))
       previewParagraph.appendChild(inputPreview);
     } else {
       editingParagraph.append(`${element.word} `);
@@ -123,7 +122,7 @@ function convertToParagraph(rawStory) {
 
   allEditedIput.forEach((inputField, indexEdit) => {
     inputField.setAttribute("id", `${indexEdit}Edit`);
-    inputField.setAttribute("maxlength", "15");
+    inputField.setAttribute("maxlength", "20");
 
     /*RESET button for edit input field  */
     resetBtn.addEventListener("click", () => {
@@ -160,12 +159,6 @@ function convertToParagraph(rawStory) {
   });
 }
 
-function getValue(element) {
-  element.addEventListener("input", (e) => {
-    const inputValue = e.target.value;
-    return inputValue;
-  });
-}
 function getStarted() {
   document.getElementById("my-audio").play();
   previewClass.style.display = "block";
