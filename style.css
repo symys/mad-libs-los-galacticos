@@ -1,3 +1,160 @@
 /**
  * Your CSS goes here.
  */
+ body{
+   min-height: 100vh;
+   width: 100%;
+   background-image: url("./assets/halloween\ bg.jpg");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+    margin: 0;
+ }
+
+ 
+ .parentDiv{
+    display: flex;
+    position: relative;
+  padding: 3rem;
+  gap:2rem
+
+    
+
+ }
+
+ .parentDiv h2{
+   text-align: center;
+ }
+ .madLibsEdit{
+    display:none;
+    background-color:rgba(0,0,0,0.4);
+    width: 50%;
+    border-radius: 10px;
+    padding: 2rem 1rem;
+    line-height: 2.3rem;
+    color:rgb(255, 247, 247);
+    font-weight: 700;
+    font-size: 20px;
+ }
+ .madLibsEdit h2{
+   display: flex;
+   justify-content: space-around;
+ }
+ h2 button{
+   background-color: #E34C0D;
+   padding: 0rem 0.9rem;
+   border-radius: 10px;
+   color:rgb(255, 247, 247);
+   border: none;
+   cursor: pointer;
+   filter: brightness(80%);
+   transition: filter 0.4s ease-in-out;
+ }
+ h2 button:hover{
+   filter: brightness(100%);
+ }
+ .madLibsEdit input{
+   margin:0 10px;
+   outline:none;
+   color:rgb(255, 247, 247);
+   background-color:rgba(231, 219, 219, 0.1);
+   font-weight: 700;
+border: none;
+   padding: 0.4rem 0.8rem;
+   border-radius: 10px;
+
+
+ }
+ .madLibsEdit input:focus{
+   background-color: #fff;
+   color:black
+ }
+ .madLibsEdit input::placeholder{
+   color:rgb(255, 247, 247);
+   font-style: italic;
+   font-weight: 500;
+ }
+
+ .madLibsPreview{
+    display: none;
+    width: 50%;
+    background-color:rgba(0,0,0,0.4);
+    border-radius: 10px;
+    padding: 2rem 1rem;
+    line-height: 2.3rem;
+    color:rgb(255, 247, 247);
+    font-weight: 700;
+    font-size: 20px;
+ }
+ .madLibsPreview input{
+   margin:0 10px;
+   outline:none;
+   color:rgb(255, 247, 247);
+ background-color: transparent   ;
+   font-weight: 700;
+
+   padding: 0rem 0.8rem;
+border-top: none;
+border-left: none;
+border-right: none;
+border-bottom: 2px solid #fff;
+
+ }
+
+
+ .btn-welcome{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+ 
+
+ }
+.btn-welcome img{
+    width: 250px;
+    animation: movebtn 3s ease-in-out infinite;
+    transition: all .5s ease-in-out;
+    cursor: pointer;
+   scale: 1;
+}
+
+
+.btn-welcome img:hover{
+scale: 1.2;
+}
+
+@keyframes movebtn {
+   0% {
+       transform: translateY(0px);
+   }
+
+   25% {
+       transform: translateY(20px);
+   }
+
+   50% {
+       transform: translateY(40px);
+   }
+
+
+   100% {
+       transform: translateY(0px);
+   }
+}
+
+
+@media (max-width:910px){
+   .parentDiv{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+   .madLibsEdit{
+      width: 100% ;
+      font-size: 16px ;
+   }
+   .madLibsPreview{
+      width: 100%;
+      font-size: 16px ;
+   }
+ }

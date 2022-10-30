@@ -70,6 +70,11 @@ function parseStory(rawStory) {
  *
  * You'll want to use the results of parseStory() to display the story on the page.
  */
+
+const previewClass = document.querySelector(".madLibsPreview");
+const editingClass = document.querySelector(".madLibsEdit");
+const btnWelcome = document.querySelector(".btn-welcome");
+
 getRawStory()
   .then(parseStory)
   .then((processedStory) => {
@@ -80,15 +85,16 @@ getRawStory()
 function convertToParagraph(rawStory) {
   const headEdit = document.createElement("h2");
   const headPreview = document.createElement("h2");
-  const editingClass = document.querySelector(".madLibsEdit");
+  const resetBtn = document.createElement("button");
   const editingParagraph = document.createElement("p");
-  headEdit.innerText = "Halloween";
+  headEdit.innerText = "Story of Untold";
+  resetBtn.innerText = "Reset";
   editingClass.appendChild(headEdit);
+  headEdit.append(resetBtn);
   editingClass.appendChild(editingParagraph);
 
-  const previewClass = document.querySelector(".madLibsPreview");
   const previewParagraph = document.createElement("p");
-  headPreview.innerText = "Halloween";
+  headPreview.innerText = "Story of Untold";
   previewClass.appendChild(headPreview);
   previewClass.appendChild(previewParagraph);
 
@@ -117,13 +123,27 @@ function convertToParagraph(rawStory) {
 
   allEditedIput.forEach((inputField, indexEdit) => {
     inputField.setAttribute("id", `${indexEdit}Edit`);
+    inputField.setAttribute("maxlength", "15");
+
+    /*RESET button for edit input field  */
+    resetBtn.addEventListener("click", () => {
+      inputField.value = "";
+    });
+
     inputField.addEventListener("input", (e) => {
       allPreviewInput.forEach((previewInputField, indexPreview) => {
+        /*Reset Button for preview input field */
+        resetBtn.addEventListener("click", () => {
+          previewInputField.value = "";
+        });
+
         if (indexEdit === indexPreview) {
           previewInputField.value = e.target.value;
         }
       });
     });
+
+    /*HOTKEYS */
     inputField.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         const getNextEditedInput = document.getElementById(
@@ -146,3 +166,10 @@ function getValue(element) {
     return inputValue;
   });
 }
+function getStarted() {
+  document.getElementById("my-audio").play();
+  previewClass.style.display = "block";
+  editingClass.style.display = "block";
+  btnWelcome.style.display = "none";
+}
+btnWelcome.addEventListener("click", getStarted);
