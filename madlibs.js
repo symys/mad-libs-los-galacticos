@@ -132,6 +132,7 @@ function convertToParagraph(rawStory) {
     inputField.addEventListener("input", (e) => {
       allPreviewInput.forEach((previewInputField, indexPreview) => {
         /*Reset Button for preview input field */
+        previewInputField.setAttribute("readonly", "");
         resetBtn.addEventListener("click", () => {
           previewInputField.value = "";
         });
@@ -160,7 +161,7 @@ function convertToParagraph(rawStory) {
 }
 
 function getStarted() {
-  document.getElementById("my-audio").play();
+  // document.getElementById("my-audio").play();
   previewClass.style.display = "block";
   editingClass.style.display = "block";
   btnWelcome.style.display = "none";
