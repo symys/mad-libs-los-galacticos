@@ -35,29 +35,33 @@ function parseStory(rawStory) {
   let noun = /\[n\]/;
   let adjective = /\[adj\]/;
   let verb = /\[v\]/;
-  let allSigns = /[.,;\s]/g;
+
+  let dot = /[.]/g;
+  let comma = /[,] /g;
+
+  rawStory.replace(dot, " .");
+  rawStory.replace(comma, " , ");
   let allText = rawStory.split(" ");
 
   allText.forEach((singleText) => {
-    let updatedText = singleText.replace(allSigns, "");
-    if (noun.test(updatedText)) {
+    if (noun.test(singleText)) {
       let singleObject = {};
-      singleObject.word = updatedText.slice(0, -3);
+      singleObject.word = singleText.slice(0, -3);
       singleObject.pos = "noun";
       dataArr.push(singleObject);
-    } else if (adjective.test(updatedText)) {
+    } else if (adjective.test(singleText)) {
       let singleObject = {};
-      singleObject.word = updatedText.slice(0, -5);
+      singleObject.word = singleText.slice(0, -5);
       singleObject.pos = "adjective";
       dataArr.push(singleObject);
-    } else if (verb.test(updatedText)) {
+    } else if (verb.test(singleText)) {
       let singleObject = {};
-      singleObject.word = updatedText.slice(0, -3);
+      singleObject.word = singleText.slice(0, -3);
       singleObject.pos = "verb";
       dataArr.push(singleObject);
     } else {
       let singleObject = {};
-      singleObject.word = updatedText;
+      singleObject.word = singleText;
       dataArr.push(singleObject);
     }
   });
@@ -71,6 +75,7 @@ function parseStory(rawStory) {
  * You'll want to use the results of parseStory() to display the story on the page.
  */
 
+//!! Globally declared DOM elements
 const previewClass = document.querySelector(".madLibsPreview");
 const editingClass = document.querySelector(".madLibsEdit");
 const btnWelcome = document.querySelector(".btn-welcome");
@@ -79,47 +84,56 @@ getRawStory()
   .then(parseStory)
   .then((processedStory) => {
     convertToParagraph(processedStory);
-    //console.log(processedStory)
   });
 
 function convertToParagraph(rawStory) {
-  const headEdit = document.createElement("h2");
-  const headPreview = document.createElement("h2");
+  //!created html elements
+  const headerEdit = document.createElement("h2");
+  const headerPreview = document.createElement("h2");
+
   const resetBtn = document.createElement("button");
   const editingParagraph = document.createElement("p");
-  headEdit.innerText = "Story of Untold";
+
+  headerEdit.innerText = "Story of Untold";
   resetBtn.innerText = "Reset";
-  editingClass.appendChild(headEdit);
-  headEdit.append(resetBtn);
+
+  editingClass.appendChild(headerEdit);
+  headerEdit.appendChild(resetBtn);
   editingClass.appendChild(editingParagraph);
 
   const previewParagraph = document.createElement("p");
-  headPreview.innerText = "Story of Untold";
-  previewClass.appendChild(headPreview);
+  headerPreview.innerText = "Story of Untold";
+  previewClass.appendChild(headerPreview);
   previewClass.appendChild(previewParagraph);
 
   rawStory.forEach((element, index) => {
     if (element.pos) {
-      const input = document.createElement("input");
-      // input.setAttribute("id", `${index}Edit`);
-      input.className = "editInput";
+      //!INPUTS for EditMadLibs
+      const editInput = document.createElement("input");
+      editInput.className = "editInput";
+      editInput.type = "text";
+      editInput.placeholder = `write ${
+        element.pos === "adjective" ? "an" : "a"
+      } ${element.pos}`;
+      editingParagraph.appendChild(editInput);
+
+      //!INPUTS for PreviewMadLibs
       const inputPreview = document.createElement("input");
       inputPreview.setAttribute("id", `${index}Preview`);
       inputPreview.className = "inputPreview";
-      input.type = "text";
-      input.placeholder = `write a ${element.pos}`;
-
-      editingParagraph.appendChild(input);
       previewParagraph.appendChild(inputPreview);
     } else {
+      //!If there is no pos we automatically append words..
       editingParagraph.append(`${element.word} `);
       previewParagraph.append(` ${element.word} `);
     }
   });
 
+  //?Defining All inputs for both edit&preview part
   const allEditedIput = document.querySelectorAll(".editInput");
   const allPreviewInput = document.querySelectorAll(".inputPreview");
 
+  //!first looping through allEditedInputs
   allEditedIput.forEach((inputField, indexEdit) => {
     inputField.setAttribute("id", `${indexEdit}Edit`);
     inputField.setAttribute("maxlength", "20");
@@ -131,12 +145,7 @@ function convertToParagraph(rawStory) {
 
     inputField.addEventListener("input", (e) => {
       allPreviewInput.forEach((previewInputField, indexPreview) => {
-        /*Reset Button for preview input field */
-        previewInputField.setAttribute("readonly", "");
-        resetBtn.addEventListener("click", () => {
-          previewInputField.value = "";
-        });
-
+        //!we dynamically eject editInput value to previewInputField value
         if (indexEdit === indexPreview) {
           previewInputField.value = e.target.value;
         }
@@ -157,6 +166,17 @@ function convertToParagraph(rawStory) {
         }
       }
     });
+  });
+
+  //!second looping through allPreviewInputFields
+  allPreviewInput.forEach((previewInputField) => {
+    /*Reset Button for preview input field */
+    resetBtn.addEventListener("click", () => {
+      previewInputField.value = "";
+    });
+
+    //! making previewInputs read only, users not allowed to make changes
+    previewInputField.setAttribute("readonly", "");
   });
 }
 
