@@ -161,7 +161,7 @@ function convertToParagraph(rawStory) {
 }
 
 function getStarted() {
-  document.getElementById("my-audio").play();
+  // document.getElementById("my-audio").play();
   previewClass.style.display = "block";
   editingClass.style.display = "block";
   btnWelcome.style.display = "none";
